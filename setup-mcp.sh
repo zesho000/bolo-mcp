@@ -64,13 +64,18 @@ console.log('Claude Desktop config updated.');
 # 5. Test server
 echo ""
 echo "Testing MCP server..."
-RESULT=$(echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0.0"}}}' | timeout 5 node "$SCRIPT_DIR/server.mjs" 2>/dev/null | head -1)
-
-if echo "$RESULT" | grep -q "bolo-mcp"; then
-  echo "Server test: PASSED"
-else
-  echo "Server test: could not verify (this is OK, it will work in Claude Desktop)"
-fi
+node -e "
+const { spawn } = require('child_process');
+const s = spawn('node', ['$SCRIPT_DIR/server.mjs'], { stdio: ['pipe','pipe','pipe'] });
+let out = '';
+s.stdout.on('data', d => { out += d; s.kill(); });
+s.stdin.write(JSON.stringify({jsonrpc:'2.0',id:1,method:'initialize',params:{protocolVersion:'2024-11-05',capabilities:{},clientInfo:{name:'test',version:'1.0.0'}}}) + '\n');
+setTimeout(() => { s.kill(); process.exit(out.includes('bolo-mcp') ? 0 : 1); }, 5000);
+s.on('close', () => {
+  if (out.includes('bolo-mcp')) { console.log('Server test: PASSED'); process.exit(0); }
+  else { console.log('Server test: could not verify (this is OK)'); process.exit(0); }
+});
+"
 
 echo ""
 echo "========================================="
