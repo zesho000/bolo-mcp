@@ -1,0 +1,16 @@
+{
+  "name": "bolo-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Bolo clipboard & voice history — lets Claude search your saved links, text, and recordings",
+  "type": "module",
+  "main": "server.mjs",
+  "bin": {
+    "bolo-mcp": "./server.mjs"
+  },
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1"
+  }
+}
