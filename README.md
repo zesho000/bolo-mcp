@@ -19,15 +19,22 @@ Ask your AI things like:
 | `search_voice` | Search voice recording transcriptions |
 | `get_clipboard_item` | Get full content of a specific item by ID |
 
-## Quick Setup (Mac)
+## Quick Setup
 
+**Mac:**
 ```bash
 cd bolo-mcp
 ./setup-mcp.sh
 ```
 
-This auto-installs dependencies, configures Claude Desktop, and tests the server.
-Restart Claude Desktop (Cmd+Q, reopen) — done.
+**Windows:**
+```
+cd bolo-mcp
+setup-mcp.bat
+```
+
+This auto-installs dependencies, configures Claude Desktop + ChatGPT Desktop, and tests the server.
+Restart your AI app after setup — done.
 
 ---
 
@@ -35,7 +42,9 @@ Restart Claude Desktop (Cmd+Q, reopen) — done.
 
 ### Claude Desktop
 
-Config: `~/Library/Application Support/Claude/claude_desktop_config.json`
+Config:
+- Mac: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
@@ -50,7 +59,9 @@ Config: `~/Library/Application Support/Claude/claude_desktop_config.json`
 
 ### ChatGPT Desktop
 
-Config: `~/Library/Application Support/ChatGPT/chatgpt_mcp_config.json` (create if missing)
+Config (create if missing):
+- Mac: `~/Library/Application Support/ChatGPT/chatgpt_mcp_config.json`
+- Windows: `%APPDATA%\ChatGPT\chatgpt_mcp_config.json`
 
 ```json
 {
@@ -82,4 +93,4 @@ Check your AI tool's docs for where MCP server config goes.
 ## Requirements
 
 - Node.js 18+
-- Bolo app running on the same Mac (data lives in `~/Library/Application Support/Bolo/`)
+- Bolo app running (data: `~/Library/Application Support/Bolo/` on Mac, `%APPDATA%\Bolo\` on Windows)

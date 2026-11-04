@@ -6,7 +6,9 @@ import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 
-const BOLO_DIR = join(homedir(), "Library", "Application Support", "Bolo");
+const BOLO_DIR = process.platform === "win32"
+  ? join(process.env.APPDATA || join(homedir(), "AppData", "Roaming"), "Bolo")
+  : join(homedir(), "Library", "Application Support", "Bolo");
 const CLIP_PATH = join(BOLO_DIR, "clipboard_history.json");
 const HIST_PATH = join(BOLO_DIR, "history.json");
 

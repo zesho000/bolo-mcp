@@ -26,19 +26,27 @@ The MCP server lets your AI assistant search your Bolo clipboard and voice histo
 https://github.com/zesho000/bolo-mcp
 ```
 
-### Quick Setup (Mac)
+### Quick Setup
 
 **Step 1:** Make sure Node.js is installed — download from https://nodejs.org (LTS version)
 
 **Step 2:** Clone the repo and run setup:
 
+**Mac:**
 ```bash
 git clone https://github.com/zesho000/bolo-mcp.git
 cd bolo-mcp
 ./setup-mcp.sh
 ```
 
-**Step 3:** Restart your AI app (Cmd+Q, then reopen)
+**Windows (Command Prompt or PowerShell):**
+```
+git clone https://github.com/zesho000/bolo-mcp.git
+cd bolo-mcp
+setup-mcp.bat
+```
+
+**Step 3:** Restart your AI app (close and reopen)
 
 That's it. The setup script automatically installs dependencies and configures Claude Desktop + ChatGPT Desktop.
 
@@ -60,8 +68,10 @@ If your AI tool supports MCP servers, add this to its config:
 Replace `/FULL/PATH/TO/` with the actual path where you cloned the repo.
 
 **Config file locations:**
-- Claude Desktop: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- ChatGPT Desktop: `~/Library/Application Support/ChatGPT/chatgpt_mcp_config.json`
+- Claude Desktop (Mac): `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Claude Desktop (Windows): `%APPDATA%\Claude\claude_desktop_config.json`
+- ChatGPT Desktop (Mac): `~/Library/Application Support/ChatGPT/chatgpt_mcp_config.json`
+- ChatGPT Desktop (Windows): `%APPDATA%\ChatGPT\chatgpt_mcp_config.json`
 - Cursor: Settings → MCP → Add Server
 - Windsurf: Settings → MCP → Add Server
 
