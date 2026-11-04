@@ -1,14 +1,14 @@
 # bolo-mcp
 
-MCP server for **Bolo** — exposes your clipboard history and voice recordings to Claude Desktop, ChatGPT, or any MCP-compatible AI.
+MCP server for **Bolo** — exposes your clipboard history and voice recordings to any MCP-compatible AI (Claude, ChatGPT, Cursor, Windsurf, etc).
 
 ## What it does
 
-Ask Claude things like:
+Ask your AI things like:
 - "10 din pehle ek YouTube channel ka link save kiya tha, nikal do"
 - "last week ke saare GitHub links do"
 - "kal maine kya kya copy kiya?"
-- "voice mein maine Claude ke baare mein kya bola tha?"
+- "voice mein maine kya bola tha?"
 
 ## Tools
 
@@ -19,15 +19,24 @@ Ask Claude things like:
 | `search_voice` | Search voice recording transcriptions |
 | `get_clipboard_item` | Get full content of a specific item by ID |
 
-## Setup with Claude Desktop
+## Quick Setup (Mac)
 
-1. Install dependencies:
 ```bash
 cd bolo-mcp
-npm install
+./setup-mcp.sh
 ```
 
-2. Add to Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+This auto-installs dependencies, configures Claude Desktop, and tests the server.
+Restart Claude Desktop (Cmd+Q, reopen) — done.
+
+---
+
+## Setup per AI Tool
+
+### Claude Desktop
+
+Config: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
 ```json
 {
   "mcpServers": {
@@ -39,7 +48,36 @@ npm install
 }
 ```
 
-3. Restart Claude Desktop — you'll see Bolo tools in the MCP menu.
+### ChatGPT Desktop
+
+Config: `~/Library/Application Support/ChatGPT/chatgpt_mcp_config.json` (create if missing)
+
+```json
+{
+  "mcpServers": {
+    "bolo": {
+      "command": "node",
+      "args": ["/FULL/PATH/TO/bolo-mcp/server.mjs"]
+    }
+  }
+}
+```
+
+### Cursor
+
+Settings → MCP → Add Server:
+- **Name:** `bolo`
+- **Command:** `node /FULL/PATH/TO/bolo-mcp/server.mjs`
+
+### Windsurf / Any MCP Client
+
+Same pattern — point to `server.mjs`:
+- **Command:** `node`
+- **Args:** `["/FULL/PATH/TO/bolo-mcp/server.mjs"]`
+
+Check your AI tool's docs for where MCP server config goes.
+
+---
 
 ## Requirements
 

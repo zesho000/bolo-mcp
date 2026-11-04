@@ -77,11 +77,38 @@ s.on('close', () => {
 });
 "
 
+# 6. ChatGPT Desktop config (if installed)
+CHATGPT_DIR="$HOME/Library/Application Support/ChatGPT"
+CHATGPT_FILE="$CHATGPT_DIR/chatgpt_mcp_config.json"
+
+if [ -d "$CHATGPT_DIR" ]; then
+  echo ""
+  echo "ChatGPT Desktop detected — configuring..."
+  if [ ! -f "$CHATGPT_FILE" ]; then
+    echo "{}" > "$CHATGPT_FILE"
+  fi
+  node -e "
+  const fs = require('fs');
+  const path = '$CHATGPT_FILE';
+  let config = {};
+  try { config = JSON.parse(fs.readFileSync(path, 'utf8')); } catch {}
+  if (!config.mcpServers) config.mcpServers = {};
+  config.mcpServers.bolo = {
+    command: 'node',
+    args: ['$SCRIPT_DIR/server.mjs']
+  };
+  fs.writeFileSync(path, JSON.stringify(config, null, 2));
+  console.log('ChatGPT Desktop config updated.');
+  "
+fi
+
 echo ""
 echo "========================================="
-echo "  DONE! Now restart Claude Desktop."
+echo "  DONE! Restart your AI app(s)."
 echo "  (Cmd+Q to quit, then reopen)"
 echo ""
-echo "  After restart, ask Claude:"
+echo "  Works with: Claude, ChatGPT, Cursor, Windsurf"
+echo ""
+echo "  After restart, ask your AI:"
 echo "  'Bolo mein dekho, last week ke links do'"
 echo "========================================="
