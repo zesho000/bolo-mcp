@@ -10,8 +10,8 @@ With the **Bolo MCP Server**, you can connect your clipboard history directly to
 
 | Platform | Download |
 |----------|----------|
-| **Mac** | [Download for Mac](https://drive.google.com/open?id=1M7mz8iapRw9UYCTHl8njFtbzNWhPyUDr) |
-| **Windows** | [Download for Windows](https://drive.google.com/open?id=1sRCxNbTpf1O8wAXKki-vwUbH_seYbPll) |
+| **Mac** | [Download for Mac](https://drive.google.com/open?id=1Xg5vl4WnUEF7l55cpVdgTsPo4LkQDpAJ) |
+| **Windows** | [Download for Windows](https://drive.google.com/open?id=1keQx6GofL0tELL39dek_1BMcuOqaIIHJ) |
 
 ---
 
@@ -84,6 +84,8 @@ Replace `/FULL/PATH/TO/` with the actual path where you cloned the repo.
 | `clipboard_stats` | See total items, type breakdown, and date range |
 | `search_voice` | Search your voice recording transcriptions |
 | `get_clipboard_item` | Get the full content of a specific saved item |
+| `get_translate_language` / `set_translate_language` | Check or change Bolo's Translate (Output Style) language |
+| `get_interface_language` / `set_interface_language` | Check or change Bolo's own interface language |
 
 ---
 
@@ -102,6 +104,10 @@ Once connected, try these prompts in Claude or ChatGPT:
 > Search my voice history for anything about "channel"
 
 > I saved a website link about 10 days ago with the word "design" in it — find it for me
+
+> Set Bolo's translate language to Spanish
+
+> Change Bolo's interface to Hindi
 
 ---
 
