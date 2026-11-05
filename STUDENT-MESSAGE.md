@@ -10,8 +10,8 @@ With the **Bolo MCP Server**, you can connect your clipboard history directly to
 
 | Platform | Download |
 |----------|----------|
-| **Mac** | [Download for Mac](https://drive.google.com/open?id=1Xg5vl4WnUEF7l55cpVdgTsPo4LkQDpAJ) |
-| **Windows** | [Download for Windows](https://drive.google.com/open?id=1keQx6GofL0tELL39dek_1BMcuOqaIIHJ) |
+| **Mac** | [Download for Mac](https://drive.google.com/open?id=1SErwb0oF_gtKGLCezpihPKlMvKCld_EM) |
+| **Windows** | [Download for Windows](https://drive.google.com/open?id=1QPpcxh-eRMDqQE8D6KicZ_TU5Fa2pGj-) |
 
 ---
 
