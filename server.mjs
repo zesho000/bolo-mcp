@@ -2,7 +2,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 
@@ -11,10 +11,29 @@ const BOLO_DIR = process.platform === "win32"
   : join(homedir(), "Library", "Application Support", "Bolo");
 const CLIP_PATH = join(BOLO_DIR, "clipboard_history.json");
 const HIST_PATH = join(BOLO_DIR, "history.json");
+const TRANSLATE_PATH = join(BOLO_DIR, "translate_mode.json");
+
+const LANGUAGES = ["roman_urdu", "english", "urdu", "hindi", "pashto", "bengali",
+                   "chinese", "spanish", "french", "arabic", "russian", "portuguese"];
+const LANGUAGE_LABELS = {
+  roman_urdu: "Roman Urdu", english: "English", urdu: "Urdu (اردو)", hindi: "Hindi (हिन्दी)",
+  pashto: "Pashto (پښتو)", bengali: "Bengali (বাংলা)", chinese: "Chinese (中文)",
+  spanish: "Spanish (Español)", french: "French (Français)", arabic: "Arabic (العربية)",
+  russian: "Russian (Русский)", portuguese: "Portuguese (Português)",
+};
 
 function loadJSON(path) {
   if (!existsSync(path)) return [];
   try { return JSON.parse(readFileSync(path, "utf8")); } catch { return []; }
+}
+
+function loadTranslateState() {
+  if (!existsSync(TRANSLATE_PATH)) return { on: false, lang: "english" };
+  try { return JSON.parse(readFileSync(TRANSLATE_PATH, "utf8")); } catch { return { on: false, lang: "english" }; }
+}
+
+function saveTranslateState(state) {
+  writeFileSync(TRANSLATE_PATH, JSON.stringify(state, null, 2));
 }
 
 function ago(isoStr) {
@@ -137,6 +156,49 @@ server.tool(
       content: [{
         type: "text",
         text: `[${item.label}] saved ${ago(item.time)} (${item.time})\n\nType: ${item.type}\nContent:\n${item.content}`
+      }]
+    };
+  }
+);
+
+// --- Tool: get translate mode ---
+server.tool(
+  "get_translate_mode",
+  "Check Bolo's Quick Translate Mode — whether it's currently ON (voice dictation gets translated into an alternate language instead of the default Roman Urdu) or OFF, and which language it's set to. Bolo must be running — it picks up changes within ~1 second.",
+  {},
+  async () => {
+    const state = loadTranslateState();
+    const label = LANGUAGE_LABELS[state.lang] || state.lang;
+    return {
+      content: [{
+        type: "text",
+        text: state.on
+          ? `Quick Translate Mode: ON — dictation is being translated into ${label}.`
+          : `Quick Translate Mode: OFF — dictation stays in the default (Roman Urdu / whatever Output Style is set in Settings).`
+      }]
+    };
+  }
+);
+
+// --- Tool: set translate mode ---
+server.tool(
+  "set_translate_mode",
+  "Turn Bolo's Quick Translate Mode on or off, same as clicking the menu bar toggle — no need to open Settings. When ON, voice dictation is translated into the given language instead of the default. Bolo must be running — it picks up the change within ~1 second (poll get_translate_mode right after to confirm).",
+  {
+    on: z.boolean().describe("true = turn translate mode on, false = turn it off (back to default Roman Urdu)"),
+    lang: z.enum(LANGUAGES).optional().describe("Language to translate into when turning on. Omit to keep whatever language was last used. Options: " + LANGUAGES.join(", ")),
+  },
+  async ({ on, lang }) => {
+    const current = loadTranslateState();
+    const next = { on, lang: lang || current.lang || "english" };
+    saveTranslateState(next);
+    const label = LANGUAGE_LABELS[next.lang] || next.lang;
+    return {
+      content: [{
+        type: "text",
+        text: on
+          ? `Quick Translate Mode turned ON — dictation will be translated into ${label}.`
+          : `Quick Translate Mode turned OFF — dictation is back to the default.`
       }]
     };
   }

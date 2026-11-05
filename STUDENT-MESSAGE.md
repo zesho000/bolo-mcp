@@ -84,6 +84,8 @@ Replace `/FULL/PATH/TO/` with the actual path where you cloned the repo.
 | `clipboard_stats` | See total items, type breakdown, and date range |
 | `search_voice` | Search your voice recording transcriptions |
 | `get_clipboard_item` | Get the full content of a specific saved item |
+| `get_translate_mode` | Check if Bolo's Quick Translate Mode is ON/OFF and which language |
+| `set_translate_mode` | Turn Quick Translate Mode on/off and pick the language — same as the menu bar toggle |
 
 ---
 
@@ -100,6 +102,10 @@ Once connected, try these prompts in Claude or ChatGPT:
 > What are my Bolo clipboard stats?
 
 > Search my voice history for anything about "channel"
+
+> Turn on Bolo's translate mode to Hindi
+
+> Is Bolo's translate mode on right now?
 
 > I saved a website link about 10 days ago with the word "design" in it — find it for me
 
